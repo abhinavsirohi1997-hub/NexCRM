@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexCRM | Employee Profile Section</title>
+<!-- Linked pages: Home-Dashboard.html, Lead-Pipeline.html, L&M-Calling.html, Add+New-Customer.html, Employee-Profile.html, HRMS.html -->
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --font:"Manrope","Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  --bg:#f6f8fc;
+  --sidebar:#f8fafc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --blue:#5f7cff;
+  --purple:#7657e8;
+  --green:#19b76b;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --shadow:0 20px 60px rgba(15,23,42,.10);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:var(--font)}
+html{scroll-behavior:smooth}
+body{
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top right,rgba(118,87,232,.16),transparent 28%),
+    radial-gradient(circle at top left,rgba(95,124,255,.10),transparent 24%),
+    linear-gradient(180deg,#ffffff 0%,#f6f8fc 100%);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+a{color:inherit;text-decoration:none}
+svg{display:block}
+
+.app{min-height:100vh;display:grid;grid-template-columns:285px 1fr}
+.sidebar{
+  position:sticky;top:0;height:100vh;padding:24px 16px;
+  background:rgba(248,250,252,.92);border-right:1px solid var(--line);
+  backdrop-filter:blur(18px);overflow:auto;
+}
+.brand{display:flex;align-items:center;gap:13px;padding:0 0 24px}
+.brand-icon{
+  width:54px;height:54px;border-radius:18px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(145deg,var(--blue),var(--purple));
+  box-shadow:0 16px 34px rgba(95,124,255,.26);
+}
+.brand-icon svg{width:27px;height:27px}
+.brand h1{font-size:21px;font-weight:750;letter-spacing:-.02em;line-height:1}
+.brand p{margin-top:6px;color:var(--muted);font-size:13px;font-weight:500}
+.nav-label{color:#64748b;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;margin:4px 0 12px}
+.nav{display:grid;gap:9px}
+.nav-btn{
+  min-height:58px;width:100%;border:1px solid var(--line);border-radius:17px;background:#fff;color:#182233;
+  display:flex;align-items:center;gap:12px;padding:0 16px;transition:.22s ease;box-shadow:0 8px 20px rgba(15,23,42,.035);
+}
+.nav-btn.active,.nav-btn:hover{border-color:#c7d2fe;background:#fff;box-shadow:0 16px 34px rgba(95,124,255,.12);transform:translateX(3px)}
+.nav-count{
+  width:24px;height:24px;border-radius:9px;display:grid;place-items:center;font-size:11px;font-weight:800;color:#fff;
+  background:linear-gradient(145deg,var(--blue),var(--purple));flex:0 0 auto;
+}
+.nav-text{display:flex;flex-direction:column;gap:2px;align-items:flex-start}
+.nav-text b{font-size:14px;font-weight:750;line-height:1.1}
+.nav-text small{color:#64748b;font-size:10px;font-weight:700;line-height:1.1}
+.sidebar-card{margin-top:20px;border-radius:22px;padding:16px;background:#fff;border:1px solid var(--line);box-shadow:0 14px 34px rgba(15,23,42,.06)}
+.sidebar-card b{display:block;font-size:14px;font-weight:750}
+.sidebar-card p{margin-top:8px;color:var(--muted);font-size:12px;line-height:1.55;font-weight:500}
+
+.main{min-width:0}
+.topbar{
+  position:sticky;top:0;z-index:40;min-height:104px;display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:16px 20px;background:rgba(255,255,255,.78);border-bottom:1px solid var(--line);backdrop-filter:blur(24px);
+}
+.top-left,.top-right{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.session-card{
+  min-height:64px;border:1px solid var(--line);border-radius:20px;background:#fff;padding:10px 14px 10px 10px;
+  display:flex;align-items:center;gap:12px;box-shadow:0 12px 28px rgba(15,23,42,.055);
+}
+.avatar{
+  width:42px;height:42px;border-radius:14px;background:#111827;color:#fff;display:grid;place-items:center;
+  font-weight:800;letter-spacing:-.04em;
+}
+.session-card b{display:block;font-size:14px;font-weight:750}
+.session-card span{display:block;margin-top:3px;color:var(--muted);font-size:12px;font-weight:600}
+.time-pill{
+  min-height:54px;border:1px solid var(--line);border-radius:999px;background:#fff;display:flex;align-items:center;gap:9px;
+  padding:0 15px;box-shadow:0 12px 28px rgba(15,23,42,.045);
+}
+.time-pill svg{width:18px;height:18px;color:#0f172a}
+.time-pill small{display:block;color:#64748b;font-size:10px;line-height:1;font-weight:800;letter-spacing:.13em;text-transform:uppercase}
+.time-pill b{display:block;margin-top:4px;font-size:14px;line-height:1;font-weight:800}
+.login-btn{
+  min-height:54px;border:0;border-radius:999px;padding:0 22px;color:#fff;background:linear-gradient(145deg,#1fc16b,#16a34a);
+  box-shadow:0 22px 42px rgba(25,183,107,.23);font-size:14px;font-weight:800;transition:.22s ease;
+}
+.login-btn.stop{background:linear-gradient(145deg,#ef4444,#dc2626);box-shadow:0 22px 42px rgba(239,68,68,.20)}
+.login-btn:hover{transform:translateY(-2px)}
+.font-badge{min-height:32px;border:1px solid #c7d2fe;border-radius:999px;background:#eef2ff;color:#3150d4;display:flex;align-items:center;padding:0 11px;font-size:11px;font-weight:800}
+.theme-switch{
+  min-height:52px;border:1px solid var(--line);border-radius:999px;background:#fff;padding:4px;display:flex;align-items:center;gap:4px;
+  box-shadow:0 12px 28px rgba(15,23,42,.045);
+}
+.theme-option{min-height:42px;border:0;border-radius:999px;background:transparent;color:#64748b;display:flex;align-items:center;gap:7px;padding:0 13px;font-size:13px;font-weight:700}
+.theme-option svg{width:17px;height:17px}
+.theme-option.active{color:#fff;background:linear-gradient(145deg,var(--blue),var(--purple));box-shadow:0 12px 24px rgba(95,124,255,.24)}
+.bell{width:42px;height:42px;border:1px solid var(--line);border-radius:16px;display:grid;place-items:center;background:#fff;color:#0f172a;box-shadow:0 12px 28px rgba(15,23,42,.045)}
+.bell svg{width:18px;height:18px}
+
+.content{padding:0 20px 28px}
+.page-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:26px 0 16px}
+.page-head h2{font-size:38px;line-height:1;letter-spacing:-.06em;font-weight:800}
+.page-head p{margin-top:10px;color:#475569;font-size:15px;font-weight:500}
+.actions,.row-actions{display:flex;gap:10px;flex-wrap:wrap}
+.btn{
+  min-height:46px;border:1px solid var(--line);border-radius:999px;background:#fff;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:0 17px;color:#0f172a;font-size:14px;font-weight:750;box-shadow:0 12px 28px rgba(15,23,42,.045);transition:.22s ease;
+}
+.btn svg{width:18px;height:18px}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{border:0;color:#fff;background:linear-gradient(145deg,var(--blue),var(--purple));box-shadow:0 18px 38px rgba(95,124,255,.23)}
+.btn-green{border:0;color:#fff;background:linear-gradient(145deg,#1fc16b,#16a34a);box-shadow:0 18px 38px rgba(25,183,107,.22)}
+.btn-red{border:0;color:#fff;background:linear-gradient(145deg,#ef4444,#dc2626);box-shadow:0 18px 38px rgba(239,68,68,.18)}
+
+.profile-grid{display:grid;grid-template-columns:390px 1fr;gap:18px;align-items:start}
+.panel{border:1px solid var(--line);border-radius:28px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.panel + .panel{margin-top:18px}
+.panel-head{min-height:74px;padding:18px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.panel-head h3{font-size:18px;font-weight:800;letter-spacing:-.03em}
+.panel-body{padding:18px}
+
+.profile-card{
+  padding:22px;border:1px solid var(--line);border-radius:28px;background:#fff;box-shadow:var(--shadow);
+}
+.profile-avatar{
+  width:96px;height:96px;border-radius:30px;display:grid;place-items:center;color:#fff;font-size:31px;font-weight:800;
+  background:linear-gradient(145deg,var(--blue),var(--purple));
+  box-shadow:0 22px 44px rgba(95,124,255,.28);
+}
+.profile-card h3{margin-top:16px;font-size:25px;font-weight:800;letter-spacing:-.05em}
+.profile-card p{margin-top:7px;color:#64748b;font-size:13px;line-height:1.6;font-weight:600}
+.status-pill{
+  margin-top:14px;display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 12px;border-radius:999px;
+  background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0;font-size:12px;font-weight:800;
+}
+.profile-list{display:grid;gap:10px;margin-top:16px}
+.profile-row{
+  border:1px solid var(--line);border-radius:18px;background:#f8fafc;padding:13px;display:flex;justify-content:space-between;gap:12px;align-items:center;
+}
+.profile-row small{display:block;color:#64748b;font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:800}
+.profile-row b{text-align:right;font-size:13px;font-weight:800}
+
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.stat{
+  position:relative;min-height:114px;overflow:hidden;border:1px solid var(--line);border-radius:22px;background:rgba(255,255,255,.92);
+  box-shadow:var(--shadow);padding:20px;
+}
+.stat::after{content:"";position:absolute;width:112px;height:112px;right:-42px;top:-42px;border-radius:50%;background:rgba(95,124,255,.07)}
+.stat small{position:relative;z-index:1;display:block;color:#64748b;font-size:11px;font-weight:800;letter-spacing:.11em;text-transform:uppercase}
+.stat strong{position:relative;z-index:1;display:block;margin-top:10px;font-size:28px;line-height:1;letter-spacing:-.04em;font-weight:800}
+.stat span{position:relative;z-index:1;display:block;margin-top:10px;color:#64748b;font-size:12px;font-weight:700}
+
+.form-grid{display:grid;gap:12px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.field label{display:block;margin-bottom:6px;color:#334155;font-size:12px;font-weight:800}
+.field input,.field select,.field textarea{
+  width:100%;min-height:46px;border:1px solid var(--line);border-radius:16px;background:#fff;padding:11px 13px;color:#0f172a;outline:none;font-size:13px;font-weight:650;
+}
+.field textarea{min-height:105px;resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#a5b4fc;box-shadow:0 0 0 4px rgba(95,124,255,.12)}
+.field input[readonly],.field select:disabled{
+  background:#f8fafc;color:#64748b;cursor:not-allowed;border-style:dashed;
+}
+
+.chart-wrap{padding:8px 0 0}
+.chart-bars{display:grid;grid-template-columns:repeat(12,1fr);gap:10px;align-items:end;height:220px;padding:12px;border:1px solid var(--line);border-radius:22px;background:#f8fafc}
+.bar-item{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:8px}
+.bar{
+  width:100%;max-width:34px;border-radius:999px 999px 10px 10px;
+  background:linear-gradient(180deg,var(--blue),var(--purple));
+  min-height:18px;box-shadow:0 12px 22px rgba(95,124,255,.20);
+}
+.bar-item small{font-size:10px;color:#64748b;font-weight:800}
+.bar-item b{font-size:11px;font-weight:800;color:#0f172a}
+.chart-note{margin-top:12px;color:#64748b;font-size:12px;font-weight:600;line-height:1.5}
+
+.attendance-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+.day{
+  min-height:58px;border:1px solid var(--line);border-radius:16px;background:#f8fafc;padding:8px;display:flex;flex-direction:column;justify-content:space-between;
+}
+.day b{font-size:13px;font-weight:800}
+.day span{font-size:10px;font-weight:800;color:#64748b}
+.day.present{background:#f0fdf4;border-color:#bbf7d0}
+.day.leave{background:#fffbeb;border-color:#fde68a}
+.day.absent{background:#fef2f2;border-color:#fecaca}
+.day.today{box-shadow:0 0 0 3px rgba(95,124,255,.14);border-color:#a5b4fc}
+.legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.legend span{display:flex;align-items:center;gap:7px;color:#64748b;font-size:12px;font-weight:700}
+.legend i{width:12px;height:12px;border-radius:50%;display:block;background:#e2e8f0}
+.legend .p{background:#19b76b}.legend .l{background:#f59e0b}.legend .a{background:#ef4444}.legend .t{background:#5f7cff}
+
+.toast{
+  position:fixed;right:22px;bottom:22px;z-index:120;padding:13px 15px;border-radius:16px;color:#fff;background:#0f172a;
+  box-shadow:0 18px 40px rgba(15,23,42,.28);font-size:13px;font-weight:800;opacity:0;transform:translateY(22px);transition:.24s ease;
+}
+.toast.show{opacity:1;transform:translateY(0)}
+
+body.dark{
+  --bg:#0b0d12;--sidebar:#0b0d12;--card:#11141b;--text:#f8fafc;--muted:#94a3b8;--line:rgba(255,255,255,.10);
+  background:radial-gradient(circle at top right,rgba(118,87,232,.18),transparent 28%),radial-gradient(circle at top left,rgba(95,124,255,.10),transparent 24%),linear-gradient(180deg,#090b10 0%,#0b0d12 100%);
+}
+body.dark .sidebar,body.dark .topbar{background:rgba(11,13,18,.86)}
+body.dark .nav-btn,body.dark .sidebar-card,body.dark .session-card,body.dark .time-pill,body.dark .theme-switch,body.dark .bell,body.dark .stat,body.dark .panel,body.dark .profile-card,body.dark .field input,body.dark .field select,body.dark .field textarea,body.dark .profile-row,body.dark .chart-bars,body.dark .day{background:#11141b;color:#f8fafc}
+body.dark .profile-row,body.dark .chart-bars,body.dark .day{background:#161a22}
+body.dark .field input[readonly],body.dark .field select:disabled{background:#161a22;color:#94a3b8}
+body.dark .field label,body.dark .bar-item b,body.dark .profile-row b{color:#f8fafc}
+body.dark .profile-card p,body.dark .page-head p,body.dark .brand p,body.dark .stat small,body.dark .stat span,body.dark .session-card span,body.dark .time-pill small,body.dark .nav-text small,body.dark .profile-row small,body.dark .chart-note,body.dark .legend span,body.dark .bar-item small,body.dark .day span{color:#94a3b8}
+
+@media(max-width:1280px){.profile-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{position:static;height:auto}.nav{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){
+  .topbar,.page-head{align-items:flex-start;flex-direction:column}
+  .stats,.nav,.two,.three{grid-template-columns:1fr}
+  .actions,.row-actions,.top-left,.top-right{width:100%}
+  .btn,.login-btn{width:100%}
+  .chart-bars{gap:5px;padding:8px}
+  .attendance-grid{gap:5px}
+  .day{min-height:48px;border-radius:12px;padding:6px}
+}
+</style>
+</head>
+
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-bank" viewBox="0 0 24 24"><path d="M3 10.5 12 5l9 5.5M5 10.5h14M6.5 10.5V18M10.2 10.5V18M13.8 10.5V18M17.5 10.5V18M4.5 18h15M3.5 21h17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><path d="M4 4h7v7H4V4Zm9 0h7v5h-7V4Zm0 7h7v9h-7v-9Zm-9 2h7v7H4v-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M8.2 5.2 9.7 8.5c.3.7.1 1.4-.5 1.8l-1 .8a12.1 12.1 0 0 0 4.7 4.7l.8-1c.4-.6 1.2-.8 1.8-.5l3.3 1.5c.7.3 1.1 1.1.9 1.8l-.5 2c-.2.8-.9 1.4-1.8 1.4C9.5 21 3 14.5 3 6.6c0-.9.6-1.6 1.4-1.8l2-.5c.8-.2 1.5.2 1.8.9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 21c0-3.8 3.1-7 7-7s7 3.2 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M7 3v3M17 3v3M4 8h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.3-5.7M20 4v6h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><path d="M12 7v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><path d="M12 4V2M12 22v-2M4 12H2M22 12h-2M5 5l-1.4-1.4M20.4 20.4 19 19M19 5l1.4-1.4M3.6 20.4 5 19M17 12a5 5 0 1 1-10 0 5 5 0 0 1 10 0Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 15.3A8.2 8.2 0 0 1 8.7 4 8.8 8.8 0 1 0 20 15.3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M15 17H5.8a1.8 1.8 0 0 1-1.4-3l1.1-1.4V10a6.5 6.5 0 0 1 13 0v2.6l1.1 1.4a1.8 1.8 0 0 1-1.4 3H15Zm0 0a3 3 0 0 1-6 0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-save" viewBox="0 0 24 24"><path d="M5 4h12l2 2v14H5V4Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M8 4v6h8V4M8 20v-6h8v6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="app">
+  <aside class="sidebar">
+    <a class="brand" href="Home-Dashboard.html">
+      <div class="brand-icon"><svg><use href="#i-user"></use></svg></div>
+      <div>
+        <h1>NexCRM</h1>
+        <p>Employee Profile</p>
+      </div>
+    </a>
+
+    <div class="nav-label">Workspace</div>
+
+    <nav class="nav">
+      <button class="nav-btn" onclick="goToPage('Home-Dashboard.html')">
+        <span class="nav-count">1</span><span class="nav-text"><b>Dashboard</b><small>Stats quick view</small></span>
+      </button>
+      <button class="nav-btn" onclick="goToPage('Lead-Pipeline.html')">
+        <span class="nav-count">2</span><span class="nav-text"><b>Lead Pipeline</b><small>Lead section</small></span>
+      </button>
+      <button class="nav-btn" onclick="goToPage('L&M-Calling.html')">
+        <span class="nav-count">3</span><span class="nav-text"><b>Live & Manual Calling</b><small>Calling workspace</small></span>
+      </button>
+      <button class="nav-btn" onclick="goToPage('Add+New-Customer.html')">
+        <span class="nav-count">4</span><span class="nav-text"><b>Add + New Customer</b><small>Create / edit lead</small></span>
+      </button>
+      <button class="nav-btn active" onclick="goToPage('Employee-Profile.html')">
+        <span class="nav-count">5</span><span class="nav-text"><b>Employee Profile</b><small>Employee overview</small></span>
+      </button>
+      <button class="nav-btn" onclick="goToPage('HRMS.html')">
+        <span class="nav-count">6</span><span class="nav-text"><b>HRMS</b><small>Attendance & birthdays</small></span>
+      </button>
+    </nav>
+
+    <div class="sidebar-card">
+      <b>Profile Rules</b>
+      <p>Personal details are editable. Employee ID, designation, department, access level and joining details are protected.</p>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div class="top-left">
+        <div class="session-card">
+          <div class="avatar">NS</div>
+          <div><b>Employee Session</b><span id="sessionText">Not logged in</span></div>
+        </div>
+
+        <div class="time-pill">
+          <svg><use href="#i-clock"></use></svg>
+          <div><small>Current Time</small><b id="currentTime">--:--:--</b></div>
+        </div>
+
+        <div class="time-pill">
+          <svg><use href="#i-clock"></use></svg>
+          <div><small>Total Login</small><b id="totalLoginHours">00:00:00</b></div>
+        </div>
+
+        <div class="time-pill">
+          <svg><use href="#i-clock"></use></svg>
+          <div><small>Idle Hours</small><b id="idleHours">00:00:00</b></div>
+        </div>
+
+        <button id="loginBtn" class="login-btn" onclick="toggleLogin()">Start Login</button>
+      </div>
+
+      <div class="top-right">
+  
+        <div class="theme-switch">
+          <button id="lightBtn" class="theme-option active" onclick="setTheme('light')"><svg><use href="#i-sun"></use></svg>Light</button>
+          <button id="darkBtn" class="theme-option" onclick="setTheme('dark')"><svg><use href="#i-moon"></use></svg>Dark</button>
+        </div>
+        <button class="bell" aria-label="Notifications"><svg><use href="#i-bell"></use></svg></button>
+      </div>
+    </header>
+
+    <section class="content">
+      <div class="page-head">
+        <div>
+          <h2>Employee Profile Section</h2>
+          <p>View all employee details, edit personal details, and check monthly attendance performance.</p>
+        </div>
+
+        <div class="actions">
+          <button class="btn" onclick="resetProfile()"><svg><use href="#i-refresh"></use></svg>Reset</button>
+          <button class="btn btn-primary" onclick="document.getElementById('profileForm').requestSubmit()"><svg><use href="#i-save"></use></svg>Save Personal Details</button>
+        </div>
+      </div>
+
+      <section class="stats">
+        <div class="stat"><small>Present Days</small><strong id="presentDays">0</strong><span>This month</span></div>
+        <div class="stat"><small>Leave Days</small><strong id="leaveDays">0</strong><span>This month</span></div>
+        <div class="stat"><small>Attendance</small><strong id="attendancePercent">0%</strong><span>Monthly percentage</span></div>
+        <div class="stat"><small>Total CRM Calls</small><strong id="crmCalls">0</strong><span>From calling workspace</span></div>
+      </section>
+
+      <section class="profile-grid">
+        <aside>
+          <div class="profile-card">
+            <div class="profile-avatar" id="profileInitials">NS</div>
+            <h3 id="profileName">NexFund Employee</h3>
+            <p id="profileSub">Calling Executive • Loan Sales / CRM</p>
+            <span class="status-pill">Active Employee</span>
+
+            <div class="profile-list">
+              <div class="profile-row"><small>Employee ID</small><b>NF-EMP-001</b></div>
+              <div class="profile-row"><small>Designation</small><b>Calling Executive</b></div>
+              <div class="profile-row"><small>Department</small><b>Loan Sales / CRM</b></div>
+              <div class="profile-row"><small>Joining Date</small><b>01 Jan 2026</b></div>
+              <div class="profile-row"><small>Access Level</small><b>NEXCRM + Calling</b></div>
+            </div>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head"><h3>Protected Employee Details</h3></div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <div class="field"><label>Employee ID</label><input value="NF-EMP-001" readonly /></div>
+                <div class="field"><label>Official Email</label><input value="employee@nexfund.local" readonly /></div>
+                <div class="field"><label>Role</label><input value="Calling Executive" readonly /></div>
+                <div class="field"><label>Manager</label><input value="CRM Manager" readonly /></div>
+              </div>
+            </div>
+          </section>
+        </aside>
+
+        <div>
+          <section class="panel">
+            <div class="panel-head">
+              <h3>Editable Personal Details</h3>
+              <button class="btn btn-primary" onclick="document.getElementById('profileForm').requestSubmit()">Save</button>
+            </div>
+
+            <div class="panel-body">
+              <form id="profileForm" class="form-grid">
+                <div class="two">
+                  <div class="field">
+                    <label>Full Name</label>
+                    <input id="fullName" placeholder="Employee full name" />
+                  </div>
+                  <div class="field">
+                    <label>Personal Mobile</label>
+                    <input id="mobile" placeholder="9876543210" />
+                  </div>
+                </div>
+
+                <div class="two">
+                  <div class="field">
+                    <label>Personal Email</label>
+                    <input id="personalEmail" type="email" placeholder="personal@email.com" />
+                  </div>
+                  <div class="field">
+                    <label>Date of Birth</label>
+                    <input id="dob" type="date" />
+                  </div>
+                </div>
+
+                <div class="two">
+                  <div class="field">
+                    <label>Emergency Contact Name</label>
+                    <input id="emergencyName" placeholder="Emergency contact name" />
+                  </div>
+                  <div class="field">
+                    <label>Emergency Contact Number</label>
+                    <input id="emergencyMobile" placeholder="Emergency contact number" />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Current Address</label>
+                  <textarea id="address" placeholder="Employee current address..."></textarea>
+                </div>
+
+                <div class="field">
+                  <label>About / Notes</label>
+                  <textarea id="notes" placeholder="Employee notes..."></textarea>
+                </div>
+
+                <div class="row-actions">
+                  <button class="btn btn-primary" type="submit"><svg><use href="#i-save"></use></svg>Save Personal Details</button>
+                  <button class="btn" type="button" onclick="resetProfile()">Reset Form</button>
+                </div>
+              </form>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h3>Monthly Attendance Chart</h3>
+              <button class="btn" onclick="generateDemoAttendance()">Demo Attendance</button>
+            </div>
+
+            <div class="panel-body">
+              <div class="chart-wrap">
+                <div class="chart-bars" id="attendanceBars"></div>
+                <p class="chart-note">Monthly chart shows attendance percentage month-by-month. Data is stored locally in browser preview.</p>
+              </div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <h3>Current Month Attendance Calendar</h3>
+              <button class="btn" onclick="renderCalendar()">Refresh</button>
+            </div>
+            <div class="panel-body">
+              <div class="attendance-grid" id="attendanceGrid"></div>
+              <div class="legend">
+                <span><i class="p"></i> Present</span>
+                <span><i class="l"></i> Leave</span>
+                <span><i class="a"></i> Absent</span>
+                <span><i class="t"></i> Today</span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
+
+<div id="toast" class="toast">Saved</div>
+
+<script>
+const THEME_KEY = "nexfund_dashboard_theme";
+const LOGIN_KEY = "nexfund_dashboard_login";
+const PROFILE_KEY = "nexfund_employee_profile";
+const ATTENDANCE_KEY = "nexfund_hrms_attendance";
+const LEADS_KEY = "nexfund_dashboard_only_leads";
+
+let login = null;
+let profile = {};
+let attendance = {};
+let leads = [];
+
+function today(){ return new Date().toISOString().slice(0,10); }
+
+function toast(message){
+  const el = document.getElementById("toast");
+  el.textContent = message;
+  el.classList.add("show");
+  setTimeout(() => el.classList.remove("show"), 1700);
+}
+
+function loadData(){
+  try{ login = JSON.parse(localStorage.getItem(LOGIN_KEY) || "null"); }catch{ login = null; }
+  if(!login) login = { active:false, startedAt:null, totalMs:0, idleMs:0, lastActivity:Date.now() };
+  if(typeof login.idleMs !== "number") login.idleMs = 0;
+  if(!login.lastActivity) login.lastActivity = Date.now();
+
+  try{ profile = JSON.parse(localStorage.getItem(PROFILE_KEY) || "{}"); }catch{ profile = {}; }
+  try{ attendance = JSON.parse(localStorage.getItem(ATTENDANCE_KEY) || "{}"); }catch{ attendance = {}; }
+  try{ leads = JSON.parse(localStorage.getItem(LEADS_KEY) || "[]"); }catch{ leads = []; }
+}
+
+function saveLogin(){ localStorage.setItem(LOGIN_KEY, JSON.stringify(login)); }
+function saveProfile(){ localStorage.setItem(PROFILE_KEY, JSON.stringify(profile)); }
+function saveAttendance(){ localStorage.setItem(ATTENDANCE_KEY, JSON.stringify(attendance)); }
+
+function setTheme(theme){
+  const mode = theme === "dark" ? "dark" : "light";
+  document.body.classList.toggle("dark", mode === "dark");
+  localStorage.setItem(THEME_KEY, mode);
+  document.getElementById("lightBtn").classList.toggle("active", mode === "light");
+  document.getElementById("darkBtn").classList.toggle("active", mode === "dark");
+}
+
+function loadTheme(){ setTheme(localStorage.getItem(THEME_KEY) || "light"); }
+
+function formatDuration(ms){
+  const total = Math.max(0, Math.floor(Number(ms || 0) / 1000));
+  const h = String(Math.floor(total / 3600)).padStart(2,"0");
+  const m = String(Math.floor((total % 3600) / 60)).padStart(2,"0");
+  const s = String(total % 60).padStart(2,"0");
+  return `${h}:${m}:${s}`;
+}
+
+function markActivity(){
+  if(!login) return;
+  login.lastActivity = Date.now();
+  saveLogin();
+}
+
+function calculateIdleMs(){
+  if(!login) return 0;
+  const idleThreshold = 5 * 60 * 1000;
+  let idle = Number(login.idleMs || 0);
+  if(login.active && login.lastActivity){
+    const inactiveFor = Date.now() - Number(login.lastActivity);
+    if(inactiveFor > idleThreshold) idle += inactiveFor - idleThreshold;
+  }
+  return idle;
+}
+
+["click","keydown","mousemove","touchstart","scroll"].forEach(function(eventName){
+  window.addEventListener(eventName, markActivity, {passive:true});
+});
+
+function updateClock(){
+  document.getElementById("currentTime").textContent = new Date().toLocaleTimeString("en-IN", {
+    hour:"2-digit", minute:"2-digit", second:"2-digit"
+  });
+
+  let total = Number(login.totalMs || 0);
+  if(login.active && login.startedAt) total += Date.now() - new Date(login.startedAt).getTime();
+
+  document.getElementById("totalLoginHours").textContent = formatDuration(total);
+  document.getElementById("idleHours").textContent = formatDuration(calculateIdleMs());
+  document.getElementById("sessionText").textContent = login.active ? "Logged in" : "Not logged in";
+  document.getElementById("loginBtn").textContent = login.active ? "Stop Login" : "Start Login";
+  document.getElementById("loginBtn").classList.toggle("stop", login.active);
+}
+
+function toggleLogin(){
+  if(login.active){
+    login.totalMs += Date.now() - new Date(login.startedAt).getTime();
+    login.idleMs = calculateIdleMs();
+    login.active = false;
+    login.startedAt = null;
+    toast("Login stopped");
+  }else{
+    login.active = true;
+    login.startedAt = new Date().toISOString();
+    login.lastActivity = Date.now();
+    toast("Login started");
+  }
+  saveLogin();
+  updateClock();
+}
+
+function initials(name){
+  const words = String(name || "NexFund Employee").trim().split(/\s+/).slice(0,2);
+  return words.map(w => w[0] || "").join("").toUpperCase() || "NE";
+}
+
+function fillProfile(){
+  const defaults = {
+    fullName:"NexFund Employee",
+    mobile:"9876543210",
+    personalEmail:"employee@email.com",
+    dob:"",
+    emergencyName:"",
+    emergencyMobile:"",
+    address:"",
+    notes:""
+  };
+
+  profile = {...defaults, ...profile};
+
+  Object.keys(defaults).forEach(function(id){
+    document.getElementById(id).value = profile[id] || "";
+  });
+
+  document.getElementById("profileName").textContent = profile.fullName || "NexFund Employee";
+  document.getElementById("profileSub").textContent = "Calling Executive • Loan Sales / CRM";
+  document.getElementById("profileInitials").textContent = initials(profile.fullName);
+}
+
+function saveProfileForm(event){
+  event.preventDefault();
+
+  ["fullName","mobile","personalEmail","dob","emergencyName","emergencyMobile","address","notes"].forEach(function(id){
+    profile[id] = document.getElementById(id).value;
+  });
+
+  saveProfile();
+  fillProfile();
+  toast("Personal details updated");
+}
+
+function resetProfile(){
+  localStorage.removeItem(PROFILE_KEY);
+  profile = {};
+  fillProfile();
+  toast("Profile reset");
+}
+
+function monthDates(){
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const totalDays = new Date(year, month + 1, 0).getDate();
+  const dates = [];
+
+  for(let day = 1; day <= totalDays; day++){
+    dates.push(new Date(year, month, day).toISOString().slice(0,10));
+  }
+
+  return dates;
+}
+
+function generateDemoAttendance(){
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const daysPassed = now.getDate();
+
+  for(let day = 1; day <= daysPassed; day++){
+    const date = new Date(year, month, day).toISOString().slice(0,10);
+    const weekday = new Date(year, month, day).getDay();
+
+    if(weekday === 0){
+      attendance[date] = {status:"Leave", time:"-", updatedAt:new Date().toISOString()};
+    }else if(day % 10 === 0){
+      attendance[date] = {status:"Absent", time:"-", updatedAt:new Date().toISOString()};
+    }else{
+      attendance[date] = {status:"Present", time:"09:45 AM", updatedAt:new Date().toISOString()};
+    }
+  }
+
+  saveAttendance();
+  renderAll();
+  toast("Demo attendance generated");
+}
+
+function renderCalendar(){
+  const grid = document.getElementById("attendanceGrid");
+  const dates = monthDates();
+
+  grid.innerHTML = dates.map(function(date){
+    const dayNum = Number(date.slice(-2));
+    const item = attendance[date];
+    const status = item ? item.status : "";
+    const cls = status === "Present" ? "present" : status === "Leave" ? "leave" : status === "Absent" ? "absent" : "";
+    const todayCls = date === today() ? "today" : "";
+
+    return `
+      <div class="day ${cls} ${todayCls}" onclick="cycleDay('${date}')">
+        <b>${dayNum}</b>
+        <span>${status || "—"}</span>
+      </div>
+    `;
+  }).join("");
+}
+
+function cycleDay(date){
+  const current = attendance[date]?.status || "";
+
+  if(!current) attendance[date] = {status:"Present", time:"Manual", updatedAt:new Date().toISOString()};
+  else if(current === "Present") attendance[date] = {status:"Leave", time:"Manual", updatedAt:new Date().toISOString()};
+  else if(current === "Leave") attendance[date] = {status:"Absent", time:"Manual", updatedAt:new Date().toISOString()};
+  else delete attendance[date];
+
+  saveAttendance();
+  renderAll();
+}
+
+function renderStats(){
+  const dates = monthDates();
+  const nowDay = new Date().getDate();
+  const present = dates.filter(d => attendance[d]?.status === "Present").length;
+  const leave = dates.filter(d => attendance[d]?.status === "Leave").length;
+  const percent = nowDay ? Math.round((present / nowDay) * 100) : 0;
+  const crmCalls = leads.reduce((sum,item) => sum + Number(item.calls || 0),0);
+
+  document.getElementById("presentDays").textContent = present;
+  document.getElementById("leaveDays").textContent = leave;
+  document.getElementById("attendancePercent").textContent = percent + "%";
+  document.getElementById("crmCalls").textContent = crmCalls;
+}
+
+function renderBars(){
+  const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const currentMonth = new Date().getMonth();
+
+  const percentages = months.map(function(_, index){
+    if(index < currentMonth) return 75 + ((index * 7) % 21);
+    if(index === currentMonth){
+      const dates = monthDates();
+      const nowDay = new Date().getDate();
+      const present = dates.filter(d => attendance[d]?.status === "Present").length;
+      return nowDay ? Math.round((present / nowDay) * 100) : 0;
+    }
+    return 0;
+  });
+
+  document.getElementById("attendanceBars").innerHTML = months.map(function(month,index){
+    const value = percentages[index];
+    return `
+      <div class="bar-item">
+        <b>${value}%</b>
+        <div class="bar" style="height:${Math.max(8,value)}%;"></div>
+        <small>${month}</small>
+      </div>
+    `;
+  }).join("");
+}
+
+function renderAll(){
+  fillProfile();
+  renderCalendar();
+  renderStats();
+  renderBars();
+}
+
+function goToPage(page){
+  window.location.href = page;
+}
+
+document.getElementById("profileForm").addEventListener("submit", saveProfileForm);
+
+loadData();
+loadTheme();
+renderAll();
+updateClock();
+setInterval(updateClock, 1000);
+</script>
+</body>
+</html>

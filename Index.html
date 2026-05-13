@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>NexCRM | Index</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --font:"Manrope","Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,Arial,sans-serif;
+  --bg:#f6f8fc;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --blue:#5f7cff;
+  --purple:#7657e8;
+  --green:#19b76b;
+  --orange:#f59e0b;
+  --red:#ef4444;
+  --shadow:0 24px 70px rgba(15,23,42,.12);
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:var(--font);
+}
+
+body{
+  min-height:100vh;
+  color:var(--text);
+  background:
+    radial-gradient(circle at top right,rgba(118,87,232,.16),transparent 28%),
+    radial-gradient(circle at top left,rgba(95,124,255,.12),transparent 24%),
+    linear-gradient(180deg,#ffffff 0%,#f6f8fc 100%);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:geometricPrecision;
+}
+
+a{
+  color:inherit;
+  text-decoration:none;
+}
+
+button{
+  font:inherit;
+}
+
+svg{
+  display:block;
+}
+
+.wrapper{
+  width:min(1240px,calc(100% - 32px));
+  margin:0 auto;
+  padding:34px 0;
+}
+
+.topbar{
+  min-height:76px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:rgba(255,255,255,.80);
+  backdrop-filter:blur(20px);
+  box-shadow:0 16px 44px rgba(15,23,42,.06);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:14px 16px;
+  margin-bottom:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:13px;
+}
+
+.brand-icon{
+  width:52px;
+  height:52px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  color:#ffffff;
+  background:linear-gradient(145deg,var(--blue),var(--purple));
+  box-shadow:0 18px 36px rgba(95,124,255,.28);
+}
+
+.brand-icon svg{
+  width:26px;
+  height:26px;
+}
+
+.brand h1{
+  font-size:22px;
+  line-height:1;
+  font-weight:800;
+  letter-spacing:-.035em;
+}
+
+.brand p{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:13px;
+  font-weight:600;
+}
+
+.status-badge{
+  min-height:36px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  border:1px solid #bbf7d0;
+  border-radius:999px;
+  padding:0 12px;
+  color:#15803d;
+  background:#f0fdf4;
+  font-size:12px;
+  font-weight:800;
+}
+
+.status-badge::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#19b76b;
+  box-shadow:0 0 0 5px rgba(25,183,107,.14);
+}
+
+.hero{
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  border-radius:34px;
+  background:
+    radial-gradient(circle at top right,rgba(95,124,255,.18),transparent 34%),
+    linear-gradient(145deg,rgba(255,255,255,.92),rgba(255,255,255,.72));
+  box-shadow:var(--shadow);
+  padding:34px;
+  margin-bottom:20px;
+}
+
+.hero::after{
+  content:"";
+  position:absolute;
+  width:330px;
+  height:330px;
+  border-radius:50%;
+  right:-145px;
+  top:-145px;
+  background:rgba(118,87,232,.13);
+}
+
+.hero-content{
+  position:relative;
+  z-index:1;
+  max-width:780px;
+}
+
+.hero small{
+  display:inline-flex;
+  min-height:32px;
+  align-items:center;
+  border:1px solid #c7d2fe;
+  border-radius:999px;
+  background:#eef2ff;
+  color:#3150d4;
+  padding:0 11px;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+
+.hero h2{
+  margin-top:18px;
+  font-size:clamp(38px,6vw,68px);
+  line-height:.95;
+  letter-spacing:-.075em;
+  font-weight:800;
+}
+
+.hero p{
+  margin-top:16px;
+  color:#475569;
+  font-size:16px;
+  line-height:1.75;
+  font-weight:600;
+}
+
+.quick-row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:22px;
+}
+
+.btn{
+  min-height:48px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:0 18px;
+  background:#ffffff;
+  color:#0f172a;
+  box-shadow:0 14px 30px rgba(15,23,42,.06);
+  font-size:14px;
+  font-weight:800;
+  transition:.22s ease;
+}
+
+.btn svg{
+  width:18px;
+  height:18px;
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+  border-color:#c7d2fe;
+  box-shadow:0 18px 38px rgba(95,124,255,.13);
+}
+
+.btn-primary{
+  border:0;
+  color:#ffffff;
+  background:linear-gradient(145deg,var(--blue),var(--purple));
+  box-shadow:0 22px 44px rgba(95,124,255,.25);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
+}
+
+.card{
+  position:relative;
+  overflow:hidden;
+  min-height:210px;
+  border:1px solid var(--line);
+  border-radius:28px;
+  background:#ffffff;
+  box-shadow:var(--shadow);
+  padding:20px;
+  transition:.24s ease;
+}
+
+.card::after{
+  content:"";
+  position:absolute;
+  width:150px;
+  height:150px;
+  right:-64px;
+  top:-64px;
+  border-radius:50%;
+  background:rgba(95,124,255,.10);
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#c7d2fe;
+}
+
+.card-icon{
+  position:relative;
+  z-index:1;
+  width:50px;
+  height:50px;
+  border-radius:18px;
+  display:grid;
+  place-items:center;
+  color:#ffffff;
+  background:linear-gradient(145deg,var(--blue),var(--purple));
+  box-shadow:0 18px 36px rgba(95,124,255,.23);
+  margin-bottom:16px;
+}
+
+.card-icon svg{
+  width:24px;
+  height:24px;
+}
+
+.card h3{
+  position:relative;
+  z-index:1;
+  font-size:20px;
+  line-height:1.2;
+  font-weight:800;
+  letter-spacing:-.04em;
+}
+
+.card p{
+  position:relative;
+  z-index:1;
+  margin-top:10px;
+  color:var(--muted);
+  font-size:13px;
+  line-height:1.65;
+  font-weight:600;
+}
+
+.card-footer{
+  position:relative;
+  z-index:1;
+  margin-top:18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+
+.file-name{
+  color:#3150d4;
+  background:#eef2ff;
+  border:1px solid #c7d2fe;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:11px;
+  font-weight:800;
+  word-break:break-word;
+}
+
+.open-link{
+  min-width:42px;
+  height:42px;
+  border-radius:15px;
+  display:grid;
+  place-items:center;
+  color:#ffffff;
+  background:#0f172a;
+  transition:.22s ease;
+}
+
+.open-link svg{
+  width:18px;
+  height:18px;
+}
+
+.card:hover .open-link{
+  background:linear-gradient(145deg,var(--blue),var(--purple));
+}
+
+.footer{
+  margin-top:20px;
+  border:1px solid var(--line);
+  border-radius:24px;
+  background:rgba(255,255,255,.76);
+  padding:18px;
+  color:#64748b;
+  font-size:13px;
+  line-height:1.65;
+  font-weight:600;
+  text-align:center;
+}
+
+body.dark{
+  --bg:#0b0d12;
+  --card:#11141b;
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --line:rgba(255,255,255,.10);
+  background:
+    radial-gradient(circle at top right,rgba(118,87,232,.18),transparent 28%),
+    radial-gradient(circle at top left,rgba(95,124,255,.12),transparent 24%),
+    linear-gradient(180deg,#090b10 0%,#0b0d12 100%);
+}
+
+body.dark .topbar,
+body.dark .hero,
+body.dark .card,
+body.dark .footer,
+body.dark .btn{
+  background:#11141b;
+  color:#f8fafc;
+}
+
+body.dark .hero p,
+body.dark .brand p,
+body.dark .card p,
+body.dark .footer{
+  color:#94a3b8;
+}
+
+body.dark .open-link{
+  background:#ffffff;
+  color:#0f172a;
+}
+
+.theme-toggle{
+  min-height:42px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:0 14px;
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:#ffffff;
+  color:#0f172a;
+  font-size:13px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+ .logout-btn{
+  min-height:42px;
+  min-width:42px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  display:grid;
+  place-items:center;
+  background:#ffffff;
+  color:#0f172a;
+  cursor:pointer;
+}
+
+ .logout-btn svg{
+  width:18px;
+  height:18px;
+}
+
+body.dark .theme-toggle{
+  background:#11141b;
+  color:#ffffff;
+}
+
+body.dark .logout-btn{
+  background:#11141b;
+  color:#ffffff;
+}
+
+@media(max-width:960px){
+  .grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+  }
+
+  .topbar{
+    align-items:flex-start;
+    flex-direction:column;
+  }
+}
+
+@media(max-width:640px){
+  .wrapper{
+    width:min(100% - 22px,1240px);
+    padding:18px 0;
+  }
+
+  .hero{
+    padding:24px;
+  }
+
+  .grid{
+    grid-template-columns:1fr;
+  }
+
+  .quick-row .btn{
+    width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <symbol id="i-bank" viewBox="0 0 24 24">
+    <path d="M3 10.5 12 5l9 5.5M5 10.5h14M6.5 10.5V18M10.2 10.5V18M13.8 10.5V18M17.5 10.5V18M4.5 18h15M3.5 21h17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24">
+    <path d="M4 4h7v7H4V4Zm9 0h7v5h-7V4Zm0 7h7v9h-7v-9Zm-9 2h7v7H4v-7Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24">
+    <path d="M8.2 5.2 9.7 8.5c.3.7.1 1.4-.5 1.8l-1 .8a12.1 12.1 0 0 0 4.7 4.7l.8-1c.4-.6 1.2-.8 1.8-.5l3.3 1.5c.7.3 1.1 1.1.9 1.8l-.5 2c-.2.8-.9 1.4-1.8 1.4C9.5 21 3 14.5 3 6.6c0-.9.6-1.6 1.4-1.8l2-.5c.8-.2 1.5.2 1.8.9Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24">
+    <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-user" viewBox="0 0 24 24">
+    <path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM5 21c0-3.8 3.1-7 7-7s7 3.2 7 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24">
+    <path d="M7 3v3M17 3v3M4 8h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M7 17 17 7M9 7h8v8" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24">
+    <path d="M20 15.3A8.2 8.2 0 0 1 8.7 4 8.8 8.8 0 1 0 20 15.3Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="i-logout" viewBox="0 0 24 24">
+    <path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M10 16 14 12 10 8M14 12H4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<div class="wrapper">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg><use href="#i-bank"></use></svg>
+      </div>
+      <div>
+        <h1>NexCRM Index</h1>
+        <p>All CRM pages linked together</p>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
+      <span class="status-badge">Ready</span>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <svg width="17" height="17"><use href="#i-moon"></use></svg>
+        Theme
+      </button>
+      <button class="logout-btn" onclick="logout()" aria-label="Logout" title="Logout">
+        <svg><use href="#i-logout"></use></svg>
+      </button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <small>NEXCRM Root Index</small>
+      <h2>CRM Page Launcher</h2>
+      <p>
+        Use this Index.html file as the main entry point. It connects Dashboard, Lead Pipeline, Live & Manual Calling Workspace,
+        Add + New Customer, Employee Profile Section and HRMS pages together.
+      </p>
+
+      <div class="quick-row">
+        <a class="btn btn-primary" href="Home-Dashboard.html">
+          <svg><use href="#i-grid"></use></svg>
+          Open Dashboard
+        </a>
+
+        <a class="btn" href="Lead-Pipeline.html">
+          <svg><use href="#i-bank"></use></svg>
+          Lead Pipeline
+        </a>
+
+        <a class="btn" href="L&M-Calling.html">
+          <svg><use href="#i-phone"></use></svg>
+          Calling Workspace
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid">
+    <a class="card" href="Home-Dashboard.html">
+      <span class="card-icon"><svg><use href="#i-grid"></use></svg></span>
+      <h3>Dashboard</h3>
+      <p>CRM home dashboard with stats quick view and main workspace buttons.</p>
+      <div class="card-footer">
+        <span class="file-name">Home-Dashboard.html</span>
+        <span class="open-link"><svg><use href="#i-arrow"></use></svg></span>
+      </div>
+    </a>
+
+    <a class="card" href="Lead-Pipeline.html">
+      <span class="card-icon"><svg><use href="#i-bank"></use></svg></span>
+      <h3>Lead Pipeline</h3>
+      <p>Lead list, filters, status, call action, customer journey and edit/delete tools.</p>
+      <div class="card-footer">
+        <span class="file-name">Lead-Pipeline.html</span>
+        <span class="open-link"><svg><use href="#i-arrow"></use></svg></span>
+      </div>
+    </a>
+
+    <a class="card" href="L&M-Calling.html">
+      <span class="card-icon"><svg><use href="#i-phone"></use></svg></span>
+      <h3>Live & Manual Calling Workspace</h3>
+      <p>Live calling from saved customers and manual calling with call logs.</p>
+      <div class="card-footer">
+        <span class="file-name">L&M-Calling.html</span>
+        <span class="open-link"><svg><use href="#i-arrow"></use></svg></span>
+      </div>
+    </a>
+
+    <a class="card" href="Add+New-Customer.html">
+      <span class="card-icon"><svg><use href="#i-plus"></use></svg></span>
+      <h3>Add + New Customer</h3>
+      <p>Create new customer leads and edit saved customer information.</p>
+      <div class="card-footer">
+        <span class="file-name">Add+New-Customer.html</span>
+        <span class="open-link"><svg><use href="#i-arrow"></use></svg></span>
+      </div>
+    </a>
+
+    <a class="card" href="Employee-Profile.html">
+      <span class="card-icon"><svg><use href="#i-user"></use></svg></span>
+      <h3>Employee Profile Section</h3>
+      <p>Employee profile, protected related details, editable personal details and attendance chart.</p>
+      <div class="card-footer">
+        <span class="file-name">Employee-Profile.html</span>
+        <span class="open-link"><svg><use href="#i-arrow"></use></svg></span>
+      </div>
+    </a>
+
+    <a class="card" href="HRMS.html">
+      <span class="card-icon"><svg><use href="#i-calendar"></use></svg></span>
+      <h3>HRMS</h3>
+      <p>Attendance, leave request, monthly attendance chart, festival reminders and birthdays.</p>
+      <div class="card-footer">
+        <span class="file-name">HRMS.html</span>
+        <span class="open-link"><svg><use href="#i-arrow"></use></svg></span>
+      </div>
+    </a>
+  </section>
+
+  <footer class="footer">
+    Keep all files in the same folder as <b>Index.html</b>. Then each button will open its matching CRM page directly.
+  </footer>
+</div>
+
+<script>
+function toggleTheme(){
+  document.body.classList.toggle("dark");
+  localStorage.setItem("nexfund_index_theme", document.body.classList.contains("dark") ? "dark" : "light");
+}
+
+function logout(){
+  localStorage.removeItem("nexfund_dashboard_login");
+  window.location.href = "Login-Page.html";
+}
+
+if(localStorage.getItem("nexfund_index_theme") === "dark"){
+  document.body.classList.add("dark");
+}
+</script>
+</body>
+</html>
